@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Snarkorel.transnavi.enroute
@@ -16,8 +13,7 @@ namespace Snarkorel.transnavi.enroute
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            //TODO: ask for login-password
-            Application.Run(new Form1());
+            Application.Run(new mainForm());
         }
     }
 }
