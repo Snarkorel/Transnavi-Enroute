@@ -13,9 +13,15 @@ namespace Snarkorel.transnavi.enroute
         private List<GetTransportTypeTreeResponseResult> _transportInfo;
         private List<VehicleInfo> _routeVehicleInfo;
 
+        private const string BusTransportType = "1";
+        private const string TrolleybusTransportType = "2";
+        private const string TramTransportType = "3";
+        private const string ElectrobusTransportType = "5";
+
         private const string BusLink = "http://fotobus.msk.ru/ajax2.php?action=index-qsearch&cid=1&type=1&num=";
         private const string TrolleybusLink = "http://transphoto.ru/ajax2.php?action=index-qsearch&cid=1&type=2&num=";
         private const string TramLink = "http://transphoto.ru/ajax2.php?action=index-qsearch&cid=1&type=1&num=";
+        private const string ElectrobusLink = "http://transphoto.ru/ajax2.php?action=index-qsearch&cid=1&type=9&num=";
 
         public mainForm()
         {
@@ -84,7 +90,7 @@ namespace Snarkorel.transnavi.enroute
             var items = new List<string>();
             foreach (var item in routesListBox.Items)
             {
-                if (item.ToString().IndexOf(searchTextBox.Text) != -1)
+                if (item.ToString().ToLower().IndexOf(searchTextBox.Text.ToLower()) != -1)
                     items.Add(item.ToString());
             }
             routesListBox.Items.Clear();
@@ -129,12 +135,21 @@ namespace Snarkorel.transnavi.enroute
                 return;
 
             var photoLink = string.Empty;
-            if (vehicleInfo.TransportTypeId == "1")
-                photoLink = BusLink + vehicleInfo.GarageNumber;
-            if (vehicleInfo.TransportTypeId == "2")
-                photoLink = TrolleybusLink + vehicleInfo.StateNumber;
-            if (vehicleInfo.TransportTypeId == "3")
-                photoLink = TramLink + vehicleInfo.StateNumber;
+            switch (vehicleInfo.TransportTypeId)
+            {
+                case BusTransportType:
+                    photoLink = BusLink + vehicleInfo.GarageNumber;
+                    break;
+                case TrolleybusTransportType:
+                    photoLink = TrolleybusLink + vehicleInfo.StateNumber;
+                    break;
+                case TramTransportType:
+                    photoLink = TramLink + vehicleInfo.StateNumber;
+                    break;
+                case ElectrobusTransportType:
+                    photoLink = ElectrobusLink + vehicleInfo.GarageNumber;
+                    break;
+            }              
 
             var strings = new string[]
             {
